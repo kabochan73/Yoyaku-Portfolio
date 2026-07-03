@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminHolidayController;
 use App\Http\Controllers\Admin\AdminPriceController;
 use App\Http\Controllers\Admin\AdminReservationController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -33,4 +34,8 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 
     Route::get('/prices', [AdminPriceController::class, 'index']);
     Route::put('/prices', [AdminPriceController::class, 'update']);
+
+    Route::get('/holidays', [AdminHolidayController::class, 'index']);
+    Route::post('/holidays', [AdminHolidayController::class, 'store']);
+    Route::delete('/holidays/{holiday}', [AdminHolidayController::class, 'destroy']);
 });
