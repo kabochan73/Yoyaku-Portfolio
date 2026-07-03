@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Events\ReservationUpdated;
 use App\Mail\ReservationCancelled;
 use App\Mail\ReservationConfirmed;
 use App\Models\Holiday;
@@ -11,6 +12,7 @@ use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
@@ -319,6 +321,45 @@ class ReservationTest extends TestCase
 
         Mail::assertQueued(ReservationCancelled::class, function ($mail) use ($user) {
             return $mail->hasTo($user->email);
+        });
+    }
+
+    public function test_予約作成時にReservationUpdatedイベントがbroadcastされる(): void
+    {
+        Event::fake([ReservationUpdated::class]);
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->postJson('/api/reservations', [
+            'date' => '2026-07-08',
+            'start_time' => '10:00',
+            'end_time' => '12:00',
+        ])->assertCreated();
+
+        Event::assertDispatched(ReservationUpdated::class, function ($event) {
+            return $event->date === '2026-07-08';
+        });
+    }
+
+    public function test_予約キャンセル時にReservationUpdatedイベントがbroadcastされる(): void
+    {
+        Event::fake([ReservationUpdated::class]);
+        $user = User::factory()->create();
+        $reservation = Reservation::create([
+            'user_id' => $user->id,
+            'date' => '2026-07-08',
+            'start_time' => '10:00',
+            'end_time' => '12:00',
+            'status' => 'confirmed',
+            'booker_name' => $user->name,
+            'price' => 6000,
+        ]);
+
+        $this->actingAs($user)
+            ->deleteJson("/api/reservations/{$reservation->id}")
+            ->assertOk();
+
+        Event::assertDispatched(ReservationUpdated::class, function ($event) {
+            return $event->date === '2026-07-08';
         });
     }
 

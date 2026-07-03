@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ReservationUpdated;
 use App\Mail\ReservationCancelled;
 use App\Mail\ReservationConfirmed;
 use App\Models\Holiday;
@@ -101,6 +102,8 @@ class ReservationController extends Controller
 
         Mail::to($request->user()->email)->send(new ReservationConfirmed($reservation));
 
+        broadcast(new ReservationUpdated($date));
+
         return response()->json($reservation, 201);
     }
 
@@ -115,6 +118,8 @@ class ReservationController extends Controller
         Cache::tags(['calendar'])->flush();
 
         Mail::to($request->user()->email)->send(new ReservationCancelled($reservation));
+
+        broadcast(new ReservationUpdated($reservation->date->format('Y-m-d')));
 
         return response()->json(['message' => '予約をキャンセルしました。']);
     }
