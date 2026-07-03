@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CalendarController extends Controller
 {
@@ -18,8 +19,23 @@ class CalendarController extends Controller
             'month' => ['required', 'date_format:Y-m'],
         ]);
 
-        $month = Carbon::createFromFormat('Y-m', $request->month);
         $today = Carbon::today();
+
+        // 日付が変わると「今日」の判定が変わるため、キャッシュキーに含めて自動的に切り替える
+        $cacheKey = "calendar:{$request->month}:{$today->format('Y-m-d')}";
+
+        $calendar = Cache::tags(['calendar'])->remember(
+            $cacheKey,
+            $today->copy()->endOfDay(),
+            fn () => $this->buildCalendar($request->month, $today)
+        );
+
+        return response()->json($calendar);
+    }
+
+    private function buildCalendar(string $month, Carbon $today): array
+    {
+        $month = Carbon::createFromFormat('Y-m', $month);
         $maxDate = $today->copy()->addMonth();
 
         $start = $month->copy()->startOfMonth();
@@ -67,6 +83,6 @@ class CalendarController extends Controller
             $calendar[$dateStr] = ['closed' => false, 'slots' => $slots];
         }
 
-        return response()->json($calendar);
+        return $calendar;
     }
 }

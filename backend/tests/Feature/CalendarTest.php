@@ -8,11 +8,20 @@ use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class CalendarTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // カレンダーAPIはRedisキャッシュを使うため、テスト間でキャッシュが残らないようにする
+        Cache::tags(['calendar'])->flush();
+    }
 
     public function test_monthパラメータが無いとエラーになる(): void
     {
