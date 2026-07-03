@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminReservationController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\CalendarController;
@@ -21,4 +22,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/reservations', [ReservationController::class, 'store']);
     Route::get('/my-reservations', [ReservationController::class, 'index']);
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy']);
+});
+
+// 管理者
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/reservations', [AdminReservationController::class, 'index']);
+    Route::post('/reservations', [AdminReservationController::class, 'store']);
+    Route::delete('/reservations/{reservation}', [AdminReservationController::class, 'destroy']);
 });
