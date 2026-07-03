@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminHolidayController;
 use App\Http\Controllers\Admin\AdminPriceController;
 use App\Http\Controllers\Admin\AdminRegularHolidayController;
 use App\Http\Controllers\Admin\AdminReservationController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\CalendarController;
@@ -42,4 +43,6 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 
     Route::get('/regular-holidays', [AdminRegularHolidayController::class, 'index']);
     Route::put('/regular-holidays', [AdminRegularHolidayController::class, 'update']);
+
+    Route::get('/users', [AdminUserController::class, 'index']);
 });
