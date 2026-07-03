@@ -9,6 +9,7 @@ use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ReservationController extends Controller
 {
@@ -93,6 +94,8 @@ class ReservationController extends Controller
             'price' => $totalPrice,
         ]);
 
+        Cache::tags(['calendar'])->flush();
+
         return response()->json($reservation, 201);
     }
 
@@ -103,6 +106,8 @@ class ReservationController extends Controller
         }
 
         $reservation->update(['status' => 'cancelled']);
+
+        Cache::tags(['calendar'])->flush();
 
         return response()->json(['message' => '予約をキャンセルしました。']);
     }
