@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ReservationCancelled;
+use App\Mail\ReservationConfirmed;
 use App\Models\Holiday;
 use App\Models\Price;
 use App\Models\RegularHoliday;
@@ -10,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
@@ -96,6 +99,8 @@ class ReservationController extends Controller
 
         Cache::tags(['calendar'])->flush();
 
+        Mail::to($request->user()->email)->send(new ReservationConfirmed($reservation));
+
         return response()->json($reservation, 201);
     }
 
@@ -108,6 +113,8 @@ class ReservationController extends Controller
         $reservation->update(['status' => 'cancelled']);
 
         Cache::tags(['calendar'])->flush();
+
+        Mail::to($request->user()->email)->send(new ReservationCancelled($reservation));
 
         return response()->json(['message' => '予約をキャンセルしました。']);
     }

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Mail\ReservationCancelled;
+use App\Mail\ReservationConfirmed;
 use App\Models\Holiday;
 use App\Models\Price;
 use App\Models\RegularHoliday;
@@ -9,6 +11,7 @@ use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ReservationTest extends TestCase
@@ -278,6 +281,45 @@ class ReservationTest extends TestCase
             'id' => $reservation->id,
             'status' => 'cancelled',
         ]);
+    }
+
+    public function test_予約作成時に確認メールがキューに積まれる(): void
+    {
+        Mail::fake();
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->postJson('/api/reservations', [
+            'date' => '2026-07-08',
+            'start_time' => '10:00',
+            'end_time' => '12:00',
+        ])->assertCreated();
+
+        Mail::assertQueued(ReservationConfirmed::class, function ($mail) use ($user) {
+            return $mail->hasTo($user->email);
+        });
+    }
+
+    public function test_予約キャンセル時にキャンセルメールがキューに積まれる(): void
+    {
+        Mail::fake();
+        $user = User::factory()->create();
+        $reservation = Reservation::create([
+            'user_id' => $user->id,
+            'date' => '2026-07-08',
+            'start_time' => '10:00',
+            'end_time' => '12:00',
+            'status' => 'confirmed',
+            'booker_name' => $user->name,
+            'price' => 6000,
+        ]);
+
+        $this->actingAs($user)
+            ->deleteJson("/api/reservations/{$reservation->id}")
+            ->assertOk();
+
+        Mail::assertQueued(ReservationCancelled::class, function ($mail) use ($user) {
+            return $mail->hasTo($user->email);
+        });
     }
 
     public function test_他人の予約はキャンセルできない(): void
