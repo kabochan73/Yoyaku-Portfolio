@@ -8,12 +8,15 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // 公開エンドポイント
 Route::get('/calendar', [CalendarController::class, 'index']);
+Route::get('/prices', [FacilityController::class, 'prices']);
+Route::get('/regular-holidays', [FacilityController::class, 'regularHolidays']);
 
 // 認証
 Route::post('/register', [RegisterController::class, 'store']);
