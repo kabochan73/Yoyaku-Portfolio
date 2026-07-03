@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminPriceController;
 use App\Http\Controllers\Admin\AdminReservationController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SessionController;
@@ -29,4 +30,7 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::get('/reservations', [AdminReservationController::class, 'index']);
     Route::post('/reservations', [AdminReservationController::class, 'store']);
     Route::delete('/reservations/{reservation}', [AdminReservationController::class, 'destroy']);
+
+    Route::get('/prices', [AdminPriceController::class, 'index']);
+    Route::put('/prices', [AdminPriceController::class, 'update']);
 });
