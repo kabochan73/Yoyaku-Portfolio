@@ -27,7 +27,7 @@ export function useUser() {
   const query = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
-    staleTime: 5 * 60 * 1000,
+    staleTime: Infinity,
   });
 
   const logout = useMutation({
