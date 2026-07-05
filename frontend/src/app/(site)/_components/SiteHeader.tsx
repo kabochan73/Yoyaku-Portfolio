@@ -13,21 +13,21 @@ export function SiteHeader() {
           href="/"
           className="flex items-center gap-2 text-green-600 transition-transform hover:scale-105"
         >
-          <span className="text-2xl font-bold tracking-wide">FUTSAL PARK</span>
+          <span className="text-lg font-bold tracking-wide sm:text-2xl">FUTSAL PARK</span>
         </Link>
 
-        <nav className="flex items-center gap-3">
+        <nav className="flex items-center gap-2 sm:gap-3">
           {isLoading ? null : !user ? (
             <>
               <Link
                 href="/login"
-                className="rounded-lg border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-700 transition hover:border-zinc-400 hover:text-zinc-900"
+                className="rounded-lg border border-zinc-300 px-2.5 py-1.5 text-xs font-medium text-zinc-700 transition hover:border-zinc-400 hover:text-zinc-900 sm:px-4 sm:text-sm"
               >
                 ログイン
               </Link>
               <Link
                 href="/register"
-                className="rounded-lg bg-green-600 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-green-700"
+                className="rounded-lg bg-green-600 px-2.5 py-1.5 text-xs font-medium text-white transition hover:bg-green-700 sm:px-4 sm:text-sm"
               >
                 新規登録
               </Link>
@@ -36,14 +36,14 @@ export function SiteHeader() {
             <>
               <Link
                 href="/mypage"
-                className="text-sm bg-green-600 text-white px-4 py-1.5 rounded-lg font-bold transition hover:bg-green-700"
+                className="rounded-lg bg-green-600 px-2.5 py-1.5 text-xs font-bold text-white transition hover:bg-green-700 sm:px-4 sm:text-sm"
               >
                 My Page
               </Link>
               <button
                 type="button"
                 onClick={() => logout()}
-                className="rounded-lg border border-zinc-300 px-4 py-1.5 text-sm font-bold text-zinc-700 transition hover:border-zinc-400"
+                className="rounded-lg border border-zinc-300 px-2.5 py-1.5 text-xs font-bold text-zinc-700 transition hover:border-zinc-400 sm:px-4 sm:text-sm"
               >
                 ログアウト
               </button>
