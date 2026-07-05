@@ -24,8 +24,8 @@ class InitialDataSeeder extends Seeder
             ]
         );
 
-        Price::updateOrCreate(['type' => 'weekday'], ['amount_per_hour' => 3000]);
-        Price::updateOrCreate(['type' => 'weekend'], ['amount_per_hour' => 4000]);
+        Price::updateOrCreate(['type' => 'weekday'], ['amount_per_hour' => 4000]);
+        Price::updateOrCreate(['type' => 'weekend'], ['amount_per_hour' => 5000]);
 
         // 月曜日を定休日（1 = Monday）
         RegularHoliday::updateOrCreate(['day_of_week' => 1]);

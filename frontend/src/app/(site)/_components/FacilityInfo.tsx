@@ -10,8 +10,8 @@ type RegularHoliday = {
 const DAY_NAMES = ["日", "月", "火", "水", "木", "金", "土"];
 
 const FALLBACK_PRICES: Price[] = [
-  { type: "weekday", amount_per_hour: 3000 },
-  { type: "weekend", amount_per_hour: 4000 },
+  { type: "weekday", amount_per_hour: 4000 },
+  { type: "weekend", amount_per_hour: 5000 },
 ];
 
 async function getPrices(): Promise<Price[]> {
