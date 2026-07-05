@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { useMyReservations, type Reservation } from "./_hooks/useMyReservations";
+import { ProfileForm } from "./_components/ProfileForm";
 import { DAY_LABELS } from "../_utils/date";
 
 function formatDateLabel(dateStr: string): string {
@@ -153,6 +154,10 @@ export default function MyPage() {
               ))}
             </ul>
           )}
+        </section>
+
+        <section className="mt-10">
+          <ProfileForm user={user} />
         </section>
       </div>
 

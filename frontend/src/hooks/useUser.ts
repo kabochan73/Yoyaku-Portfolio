@@ -16,6 +16,13 @@ export type RegisterInput = {
   password: string;
   password_confirmation: string;
 };
+export type ProfileInput = {
+  name: string;
+  email: string;
+  current_password?: string;
+  password?: string;
+  password_confirmation?: string;
+};
 
 async function fetchUser(): Promise<User | null> {
   try {
@@ -67,6 +74,16 @@ export function useUser() {
     },
   });
 
+  const updateProfile = useMutation({
+    mutationFn: async (input: ProfileInput) => {
+      const { data } = await api.put<User>("/profile", input);
+      return data;
+    },
+    onSuccess: (user) => {
+      queryClient.setQueryData(["user"], user);
+    },
+  });
+
   return {
     user: query.data ?? null,
     isLoading: query.isLoading,
@@ -78,5 +95,7 @@ export function useUser() {
     register: register.mutateAsync,
     isRegistering: register.isPending,
     registerError: register.error,
+    updateProfile: updateProfile.mutateAsync,
+    isUpdatingProfile: updateProfile.isPending,
   };
 }
