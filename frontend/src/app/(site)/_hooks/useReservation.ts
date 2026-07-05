@@ -35,6 +35,7 @@ export function useReservation() {
         end_time: endTime,
       });
       queryClient.invalidateQueries({ queryKey: ["calendar", toYM(new Date(`${date}T00:00:00`))] });
+      queryClient.invalidateQueries({ queryKey: ["my-reservations"] });
       return true;
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 422) {

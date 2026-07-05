@@ -22,6 +22,7 @@ export function useMyReservations() {
       const { data } = await api.get<Reservation[]>("/my-reservations");
       return data;
     },
+    staleTime: Infinity,
   });
 
   const cancel = async (reservation: Reservation) => {
