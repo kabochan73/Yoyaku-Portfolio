@@ -22,6 +22,7 @@ class ReservationController extends Controller
         $reservations = $request->user()
             ->reservations()
             ->where('status', 'confirmed')
+            ->whereDate('date', '>=', Carbon::today())
             ->orderBy('date')
             ->orderBy('start_time')
             ->get();
