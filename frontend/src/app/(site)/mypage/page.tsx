@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { useMyReservations, type Reservation } from "./_hooks/useMyReservations";
-import { ProfileForm } from "./_components/ProfileForm";
 import { CancelModal } from "./_components/CancelModal";
 import { DAY_LABELS } from "../_utils/date";
+
+const ProfileForm = dynamic(() =>
+  import("./_components/ProfileForm").then((mod) => mod.ProfileForm)
+);
 
 function formatDateLabel(dateStr: string): string {
   const [y, m, d] = dateStr.slice(0, 10).split("-").map(Number);
@@ -28,6 +32,7 @@ export default function MyPage() {
   const { reservations, isLoading, cancel, cancelling, cancelError, clearCancelError } =
     useMyReservations();
   const [confirmTarget, setConfirmTarget] = useState<Reservation | null>(null);
+  const [profileOpened, setProfileOpened] = useState(false);
 
   useEffect(() => {
     if (!userLoading && !user) router.replace("/login");
@@ -99,7 +104,12 @@ export default function MyPage() {
           )}
         </section>
 
-        <details className="group mt-10 rounded-2xl border border-zinc-200 bg-white open:pb-6 open:shadow-sm">
+        <details
+          className="group mt-10 rounded-2xl border border-zinc-200 bg-white open:pb-6 open:shadow-sm"
+          onToggle={(e) => {
+            if (e.currentTarget.open) setProfileOpened(true);
+          }}
+        >
           <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-4 text-sm font-semibold text-zinc-900">
             プロフィール設定
             <svg
@@ -116,9 +126,7 @@ export default function MyPage() {
               />
             </svg>
           </summary>
-          <div className="px-6">
-            <ProfileForm user={user} />
-          </div>
+          <div className="px-6">{profileOpened && <ProfileForm user={user} />}</div>
         </details>
       </div>
 
