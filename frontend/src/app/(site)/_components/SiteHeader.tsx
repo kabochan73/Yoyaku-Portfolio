@@ -9,7 +9,10 @@ export function SiteHeader() {
   return (
     <header className="border-b border-zinc-200 bg-white">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 text-green-600">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-green-600 transition-transform hover:scale-105"
+        >
           <span className="text-2xl font-bold tracking-wide">FUTSAL PARK</span>
         </Link>
 
@@ -33,7 +36,7 @@ export function SiteHeader() {
             <>
               <Link
                 href="/mypage"
-                className="text-sm bg-green-500 text-white px-4 py-1.5 rounded-lg font-bold transition hover:bg-green-700"
+                className="text-sm bg-green-600 text-white px-4 py-1.5 rounded-lg font-bold transition hover:bg-green-700"
               >
                 My Page
               </Link>
