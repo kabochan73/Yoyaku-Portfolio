@@ -5,3 +5,8 @@ export const api = axios.create({
   withCredentials: true,
   withXSRFToken: true,
 });
+
+export async function getCsrfCookie() {
+  const origin = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, "");
+  await axios.get(`${origin}/sanctum/csrf-cookie`, { withCredentials: true });
+}

@@ -1,12 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { api } from "@/lib/axios";
+import { api, getCsrfCookie } from "@/lib/axios";
 
 export type User = {
   id: number;
   name: string;
   email: string;
   role: "user" | "admin";
+};
+
+export type LoginInput = { email: string; password: string };
+export type RegisterInput = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
 };
 
 async function fetchUser(): Promise<User | null> {
@@ -37,10 +45,38 @@ export function useUser() {
     },
   });
 
+  const login = useMutation({
+    mutationFn: async (input: LoginInput) => {
+      await getCsrfCookie();
+      const { data } = await api.post<User>("/login", input);
+      return data;
+    },
+    onSuccess: (user) => {
+      queryClient.setQueryData(["user"], user);
+    },
+  });
+
+  const register = useMutation({
+    mutationFn: async (input: RegisterInput) => {
+      await getCsrfCookie();
+      const { data } = await api.post<User>("/register", input);
+      return data;
+    },
+    onSuccess: (user) => {
+      queryClient.setQueryData(["user"], user);
+    },
+  });
+
   return {
     user: query.data ?? null,
     isLoading: query.isLoading,
     logout: logout.mutate,
     isLoggingOut: logout.isPending,
+    login: login.mutateAsync,
+    isLoggingIn: login.isPending,
+    loginError: login.error,
+    register: register.mutateAsync,
+    isRegistering: register.isPending,
+    registerError: register.error,
   };
 }
