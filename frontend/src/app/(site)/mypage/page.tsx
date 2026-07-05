@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { useMyReservations, type Reservation } from "./_hooks/useMyReservations";
 import { ProfileForm } from "./_components/ProfileForm";
+import { CancelModal } from "./_components/CancelModal";
 import { DAY_LABELS } from "../_utils/date";
 
 function formatDateLabel(dateStr: string): string {
@@ -19,64 +20,6 @@ function formatTime(timeStr: string): string {
 
 function getDurationHours(startTime: string, endTime: string): number {
   return Number(endTime.slice(0, 2)) - Number(startTime.slice(0, 2));
-}
-
-function CancelModal({
-  reservation,
-  onConfirm,
-  onClose,
-  loading,
-}: {
-  reservation: Reservation;
-  onConfirm: () => void;
-  onClose: () => void;
-  loading: boolean;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
-        <h2 className="mb-4 text-lg font-bold text-zinc-900">予約をキャンセルしますか？</h2>
-        <div className="mb-6 space-y-2 rounded-xl text-black p-4 text-xl font-bold">
-          <div className="flex justify-between">
-            <span>日付</span>
-            <span className="font-medium">{formatDateLabel(reservation.date)}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>時間</span>
-            <span className="font-medium">
-              {formatTime(reservation.start_time)} 〜 {formatTime(reservation.end_time)}
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span>利用時間</span>
-            <span className="font-medium">
-              {getDurationHours(reservation.start_time, reservation.end_time)}時間
-            </span>
-          </div>
-          <div className="flex justify-between border-t border-zinc-200 pt-2">
-            <span className="font-semibold">合計料金</span>
-            <span className="font-bold text-green-600">¥{reservation.price.toLocaleString()}</span>
-          </div>
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={onClose}
-            disabled={loading}
-            className="flex-1 rounded-lg border border-zinc-300 py-2.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50"
-          >
-            戻る
-          </button>
-          <button
-            onClick={onConfirm}
-            disabled={loading}
-            className="flex-1 rounded-lg bg-red-600 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-50"
-          >
-            {loading ? "キャンセル中..." : "キャンセルする"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default function MyPage() {
@@ -156,14 +99,38 @@ export default function MyPage() {
           )}
         </section>
 
-        <section className="mt-10">
-          <ProfileForm user={user} />
-        </section>
+        <details className="group mt-10 rounded-2xl border border-zinc-200 bg-white open:pb-6 open:shadow-sm">
+          <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-4 text-sm font-semibold text-zinc-900">
+            プロフィール設定
+            <svg
+              className="h-4 w-4 text-zinc-400 transition-transform group-open:rotate-180"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </summary>
+          <div className="px-6">
+            <ProfileForm user={user} />
+          </div>
+        </details>
       </div>
 
       {confirmTarget && (
         <CancelModal
-          reservation={confirmTarget}
+          details={{
+            dateLabel: formatDateLabel(confirmTarget.date),
+            startTime: formatTime(confirmTarget.start_time),
+            endTime: formatTime(confirmTarget.end_time),
+            duration: getDurationHours(confirmTarget.start_time, confirmTarget.end_time),
+            total: confirmTarget.price,
+          }}
           onConfirm={handleConfirm}
           onClose={() => setConfirmTarget(null)}
           loading={cancelling === confirmTarget.id}

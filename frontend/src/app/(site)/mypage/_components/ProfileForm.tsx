@@ -70,92 +70,90 @@ export function ProfileForm({ user }: { user: User }) {
   };
 
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
-        <div>
-          <label className="mb-1.5 block text-sm font-medium text-zinc-700">お名前</label>
-          <input
-            type="text"
-            {...register("name")}
-            className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
-          />
-          {errors.name && <p className="mt-1.5 text-xs text-red-500">{errors.name.message}</p>}
-        </div>
-        <div>
-          <label className="mb-1.5 block text-sm font-medium text-zinc-700">
-            メールアドレス
-          </label>
-          <input
-            type="email"
-            {...register("email")}
-            className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
-          />
-          {errors.email && <p className="mt-1.5 text-xs text-red-500">{errors.email.message}</p>}
-        </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-zinc-700">お名前</label>
+        <input
+          type="text"
+          {...register("name")}
+          className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
+        />
+        {errors.name && <p className="mt-1.5 text-xs text-red-500">{errors.name.message}</p>}
+      </div>
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-zinc-700">
+          メールアドレス
+        </label>
+        <input
+          type="email"
+          {...register("email")}
+          className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
+        />
+        {errors.email && <p className="mt-1.5 text-xs text-red-500">{errors.email.message}</p>}
+      </div>
 
-        <div className="border-t border-zinc-200 pt-5">
-          <p className="mb-3 text-xs text-zinc-500">
-            パスワードを変更する場合のみ入力してください
-          </p>
-          <div className="space-y-4">
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-zinc-700">
-                現在のパスワード
-              </label>
-              <input
-                type="password"
-                {...register("currentPassword")}
-                className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
-              />
-              {errors.currentPassword && (
-                <p className="mt-1.5 text-xs text-red-500">{errors.currentPassword.message}</p>
-              )}
-            </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-zinc-700">
-                新しいパスワード
-              </label>
-              <input
-                type="password"
-                {...register("password")}
-                className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
-                placeholder="8文字以上"
-              />
-              {errors.password && (
-                <p className="mt-1.5 text-xs text-red-500">{errors.password.message}</p>
-              )}
-            </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-zinc-700">
-                新しいパスワード（確認）
-              </label>
-              <input
-                type="password"
-                {...register("passwordConfirmation")}
-                className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
-              />
-              {errors.passwordConfirmation && (
-                <p className="mt-1.5 text-xs text-red-500">
-                  {errors.passwordConfirmation.message}
-                </p>
-              )}
-            </div>
+      <div className="border-t border-zinc-200 pt-5">
+        <p className="mb-3 text-xs text-zinc-500">
+          パスワードを変更する場合のみ入力してください
+        </p>
+        <div className="space-y-4">
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-zinc-700">
+              現在のパスワード
+            </label>
+            <input
+              type="password"
+              {...register("currentPassword")}
+              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
+            />
+            {errors.currentPassword && (
+              <p className="mt-1.5 text-xs text-red-500">{errors.currentPassword.message}</p>
+            )}
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-zinc-700">
+              新しいパスワード
+            </label>
+            <input
+              type="password"
+              {...register("password")}
+              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
+              placeholder="8文字以上"
+            />
+            {errors.password && (
+              <p className="mt-1.5 text-xs text-red-500">{errors.password.message}</p>
+            )}
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-zinc-700">
+              新しいパスワード（確認）
+            </label>
+            <input
+              type="password"
+              {...register("passwordConfirmation")}
+              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-600"
+            />
+            {errors.passwordConfirmation && (
+              <p className="mt-1.5 text-xs text-red-500">
+                {errors.passwordConfirmation.message}
+              </p>
+            )}
           </div>
         </div>
+      </div>
 
-        {serverError && <p className="text-center text-xs text-red-500">{serverError}</p>}
-        {successMessage && (
-          <p className="text-center text-xs text-green-600">{successMessage}</p>
-        )}
+      {serverError && <p className="text-center text-xs text-red-500">{serverError}</p>}
+      {successMessage && (
+        <p className="text-center text-xs text-green-600">{successMessage}</p>
+      )}
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full rounded-lg bg-green-600 py-2.5 text-sm font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {isSubmitting ? "更新中..." : "更新する"}
-        </button>
-      </form>
-    </div>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full rounded-lg bg-green-600 py-2.5 text-sm font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {isSubmitting ? "更新中..." : "更新する"}
+      </button>
+    </form>
   );
 }
