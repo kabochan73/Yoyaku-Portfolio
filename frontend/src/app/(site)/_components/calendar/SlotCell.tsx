@@ -31,7 +31,7 @@ export function SlotCell({ status, isStart, canBeEnd, onClick }: Props) {
   return (
     <td className="py-1.5 text-center" onClick={onClick}>
       <span
-        className={`inline-block rounded-md px-2 py-1 text-xs font-medium transition ${cellCls}`}
+        className={`inline-block rounded-md px-4 py-1 text-xs font-semibold transition ${cellCls}`}
       >
         {label}
       </span>

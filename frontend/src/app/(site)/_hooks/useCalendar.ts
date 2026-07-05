@@ -40,7 +40,10 @@ export function useCalendar(months: string[]) {
     [results],
   );
 
-  const isLoading = Object.keys(calendarData).length === 0;
+  // 月またぎの週では全クエリが揃うまでローディング扱いにする。
+  // 1件でも届いた時点でfalseにすると、未取得の月の日付がgetSlotStatusで
+  // "closed"(定休日)に見えてしまうため。
+  const isLoading = results.some((r) => r.isLoading);
 
   const getSlotStatus = (date: string, hour: number): SlotStatus => {
     const day = calendarData[date];

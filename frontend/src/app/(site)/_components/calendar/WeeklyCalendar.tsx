@@ -66,8 +66,8 @@ export function WeeklyCalendar() {
   return (
     <section className="bg-zinc-50 py-12">
       <div className="mx-auto max-w-5xl px-4">
-        <h2 className="mb-1 flex items-center gap-2 text-xl font-bold text-zinc-900">
-          <span>📅</span> 空き状況・予約
+        <h2 className="mb-1 flex items-center pb-2 gap-2 text-xl font-bold text-zinc-900">
+          🗓️ 空き状況・クリックで予約！
         </h2>
 
         <WeekNavigator
@@ -76,8 +76,6 @@ export function WeeklyCalendar() {
           canGoNext={canGoNext}
           onPrev={() => setWeekStart((d) => addDays(d, -7))}
           onNext={() => setWeekStart((d) => addDays(d, 7))}
-          hasSelection={selectedStart !== null}
-          onResetSelection={() => setSelectedStart(null)}
         />
 
         <CalendarGrid
