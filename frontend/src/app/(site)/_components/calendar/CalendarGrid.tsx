@@ -29,7 +29,7 @@ export function CalendarGrid({
           読み込み中...
         </div>
       )}
-      <table className="w-full border-collapse text-sm">
+      <table className="w-full table-fixed border-collapse text-sm">
         <thead>
           <tr className="divide-x divide-zinc-200 border-b border-zinc-200 bg-white">
             <th className="w-28 py-3 text-center text-xl font-medium text-zinc-800">
