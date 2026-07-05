@@ -33,14 +33,14 @@ export function SiteHeader() {
             <>
               <Link
                 href="/mypage"
-                className="text-sm text-zinc-600 transition hover:text-zinc-900"
+                className="text-sm bg-green-500 text-white px-4 py-1.5 rounded-lg font-bold transition hover:bg-green-700"
               >
-                マイページ
+                My Page
               </Link>
               <button
                 type="button"
                 onClick={() => logout()}
-                className="rounded-lg border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-700 transition hover:border-zinc-400"
+                className="rounded-lg border border-zinc-300 px-4 py-1.5 text-sm font-bold text-zinc-700 transition hover:border-zinc-400"
               >
                 ログアウト
               </button>
