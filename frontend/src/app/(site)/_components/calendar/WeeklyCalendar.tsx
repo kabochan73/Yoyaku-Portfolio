@@ -3,9 +3,9 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/axios";
-import { useCalendar } from "../../_hooks/useCalendar";
+import { useCalendar } from "@/hooks/useCalendar";
 import { useReservation } from "../../_hooks/useReservation";
-import { addDays, getMonday, toYM, toYMD, DAY_LABELS } from "../../_utils/date";
+import { addDays, getMonday, toYM, toYMD, DAY_LABELS } from "@/lib/date";
 import { WeekNavigator } from "./WeekNavigator";
 import { CalendarGrid } from "./CalendarGrid";
 import { ReservationModal } from "./ReservationModal";

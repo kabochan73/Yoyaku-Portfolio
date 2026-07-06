@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { useMyReservations, type Reservation } from "./_hooks/useMyReservations";
 import { CancelModal } from "./_components/CancelModal";
-import { DAY_LABELS } from "../_utils/date";
+import { DAY_LABELS } from "@/lib/date";
 
 const ProfileForm = dynamic(() =>
   import("./_components/ProfileForm").then((mod) => mod.ProfileForm)

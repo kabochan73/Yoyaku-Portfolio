@@ -1,4 +1,4 @@
-import { DAY_LABELS, HOURS, toYMD } from "../../_utils/date";
+import { DAY_LABELS, HOURS, toYMD } from "@/lib/date";
 import { SlotCell } from "./SlotCell";
 
 type SlotStatus = "available" | "booked" | "closed";

@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { api } from "@/lib/axios";
 import { useUser } from "@/hooks/useUser";
-import { toYM } from "../_utils/date";
+import { toYM } from "@/lib/date";
 
 type ReservationInput = {
   date: string;

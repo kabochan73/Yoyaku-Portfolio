@@ -16,7 +16,7 @@ export function useCalendar(months: string[]) {
         const { data } = await api.get<CalendarData>(`/calendar?month=${month}`);
         return data;
       },
-      refetchInterval: 10 * 60 * 1000,
+      staleTime: Infinity,
     })),
   });
 
