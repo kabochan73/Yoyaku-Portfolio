@@ -22,7 +22,7 @@ export default function LoginPage() {
   const [serverError, setServerError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user) router.replace("/");
+    if (user) router.replace(user.role === "admin" ? "/admin" : "/");
   }, [user, router]);
 
   const {
@@ -34,8 +34,7 @@ export default function LoginPage() {
   const onSubmit = async (data: FormData) => {
     setServerError(null);
     try {
-      const loggedInUser = await login(data);
-      router.push(loggedInUser.role === "admin" ? "/admin" : "/");
+      await login(data);
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 422) {
         setServerError(error.response.data.message);

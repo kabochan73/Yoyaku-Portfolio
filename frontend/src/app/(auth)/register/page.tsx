@@ -42,7 +42,6 @@ export default function RegisterPage() {
     setServerError(null);
     try {
       await registerUser(data);
-      router.push("/");
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 422) {
         const firstError = Object.values(error.response.data.errors ?? {})[0];
