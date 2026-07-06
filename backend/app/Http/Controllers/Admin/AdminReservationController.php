@@ -10,6 +10,7 @@ use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
 class AdminReservationController extends Controller
@@ -89,6 +90,7 @@ class AdminReservationController extends Controller
             'price' => $amountPerHour * $duration,
         ]);
 
+        Cache::tags(['calendar'])->flush();
         broadcast(new ReservationUpdated($date));
 
         return response()->json($reservation, 201);
@@ -102,6 +104,7 @@ class AdminReservationController extends Controller
             Mail::to($reservation->user->email)->send(new ReservationCancelled($reservation));
         }
 
+        Cache::tags(['calendar'])->flush();
         broadcast(new ReservationUpdated($reservation->date->format('Y-m-d')));
 
         return response()->json(['message' => '予約をキャンセルしました。']);
