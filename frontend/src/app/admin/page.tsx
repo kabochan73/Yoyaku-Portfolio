@@ -19,6 +19,9 @@ const RegularHolidayPanel = dynamic(() =>
 const HolidayPanel = dynamic(() =>
   import("./_components/HolidayPanel").then((mod) => mod.HolidayPanel)
 );
+const UserSearchPanel = dynamic(() =>
+  import("./_components/UserSearchPanel").then((mod) => mod.UserSearchPanel)
+);
 
 export default function AdminPage() {
   const router = useRouter();
@@ -46,6 +49,9 @@ export default function AdminPage() {
           </AccordionItem>
           <AccordionItem title="臨時休業日設定">
             <HolidayPanel />
+          </AccordionItem>
+          <AccordionItem title="ユーザー検索">
+            <UserSearchPanel />
           </AccordionItem>
           <AccordionItem title="プロフィール設定">
             <ProfileForm user={user} />
