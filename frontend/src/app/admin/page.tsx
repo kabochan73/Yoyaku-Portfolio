@@ -13,6 +13,12 @@ const ProfileForm = dynamic(() =>
 const PricePanel = dynamic(() =>
   import("./_components/PricePanel").then((mod) => mod.PricePanel)
 );
+const RegularHolidayPanel = dynamic(() =>
+  import("./_components/RegularHolidayPanel").then((mod) => mod.RegularHolidayPanel)
+);
+const HolidayPanel = dynamic(() =>
+  import("./_components/HolidayPanel").then((mod) => mod.HolidayPanel)
+);
 
 export default function AdminPage() {
   const router = useRouter();
@@ -34,6 +40,12 @@ export default function AdminPage() {
         <div className="mt-6 space-y-3">
           <AccordionItem title="料金設定">
             <PricePanel />
+          </AccordionItem>
+          <AccordionItem title="定休日設定">
+            <RegularHolidayPanel />
+          </AccordionItem>
+          <AccordionItem title="臨時休業日設定">
+            <HolidayPanel />
           </AccordionItem>
           <AccordionItem title="プロフィール設定">
             <ProfileForm user={user} />
