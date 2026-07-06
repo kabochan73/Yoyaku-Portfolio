@@ -3,10 +3,5 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      {/* AdminHeader */}
-      <main className="flex flex-1 flex-col">{children}</main>
-    </>
-  );
+  return <main className="flex flex-1 flex-col">{children}</main>;
 }
