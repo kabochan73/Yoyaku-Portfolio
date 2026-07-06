@@ -9,7 +9,7 @@ import { CancelModal } from "./_components/CancelModal";
 import { DAY_LABELS } from "@/lib/date";
 
 const ProfileForm = dynamic(() =>
-  import("./_components/ProfileForm").then((mod) => mod.ProfileForm)
+  import("@/components/ProfileForm").then((mod) => mod.ProfileForm)
 );
 
 function formatDateLabel(dateStr: string): string {

@@ -34,24 +34,25 @@ export function Header() {
             </>
           ) : (
             <>
-              {user.role === "admin" && (
+              {user.role === "admin" ? (
                 <Link
                   href="/admin"
-                  className="rounded-lg border border-zinc-300 px-2.5 py-1.5 text-xs font-medium text-zinc-700 transition hover:border-zinc-400 hover:text-zinc-900 sm:px-4 sm:text-sm"
+                  className="rounded-lg border border-zinc-400 px-2.5 py-1.5 text-xs font-bold bg-green-600 text-white transition hover:bg-green-700 sm:px-4 sm:text-sm"
                 >
                   管理者ページ
                 </Link>
+              ) : (
+                <Link
+                  href="/mypage"
+                  className="rounded-lg bg-green-600 px-2.5 py-1.5 text-xs font-bold text-white transition hover:bg-green-700 sm:px-4 sm:text-sm"
+                >
+                  My Page
+                </Link>
               )}
-              <Link
-                href="/mypage"
-                className="rounded-lg bg-green-600 px-2.5 py-1.5 text-xs font-bold text-white transition hover:bg-green-700 sm:px-4 sm:text-sm"
-              >
-                My Page
-              </Link>
               <button
                 type="button"
                 onClick={() => logout()}
-                className="rounded-lg border border-zinc-300 px-2.5 py-1.5 text-xs font-bold text-zinc-700 transition hover:border-zinc-400 sm:px-4 sm:text-sm"
+                className="rounded-lg border border-zinc-400 px-2.5 py-1.5 text-xs font-bold text-zinc-700 transition hover:border-zinc-400 sm:px-4 sm:text-sm"
               >
                 ログアウト
               </button>
