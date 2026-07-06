@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { useMyReservations, type Reservation } from "./_hooks/useMyReservations";
 import { CancelModal } from "./_components/CancelModal";
+import { AccordionItem } from "@/components/AccordionItem";
 import { DAY_LABELS } from "@/lib/date";
 
 const ProfileForm = dynamic(() =>
@@ -32,7 +33,6 @@ export default function MyPage() {
   const { reservations, isLoading, cancel, cancelling, cancelError, clearCancelError } =
     useMyReservations();
   const [confirmTarget, setConfirmTarget] = useState<Reservation | null>(null);
-  const [profileOpened, setProfileOpened] = useState(false);
 
   useEffect(() => {
     if (!userLoading && !user) router.replace("/login");
@@ -104,30 +104,11 @@ export default function MyPage() {
           )}
         </section>
 
-        <details
-          className="group mt-10 rounded-2xl border border-zinc-200 bg-white open:pb-6 open:shadow-sm"
-          onToggle={(e) => {
-            if (e.currentTarget.open) setProfileOpened(true);
-          }}
-        >
-          <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-4 text-sm font-semibold text-zinc-900">
-            プロフィール設定
-            <svg
-              className="h-4 w-4 text-zinc-400 transition-transform group-open:rotate-180"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </summary>
-          <div className="px-6">{profileOpened && <ProfileForm user={user} />}</div>
-        </details>
+        <div className="mt-10">
+          <AccordionItem title="プロフィール設定">
+            <ProfileForm user={user} />
+          </AccordionItem>
+        </div>
       </div>
 
       {confirmTarget && (
