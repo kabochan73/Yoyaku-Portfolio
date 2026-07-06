@@ -1,7 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { api } from "@/lib/axios";
 import { getEcho } from "@/lib/echo";
+
+type CreateInput = {
+  date: string;
+  startTime: string;
+  endTime: string;
+  bookerName: string;
+};
 
 export type AdminReservation = {
   id: number;
@@ -17,6 +25,8 @@ export function useAdminReservations(months: string[]) {
   const queryClient = useQueryClient();
   const [cancelling, setCancelling] = useState<number | null>(null);
   const [cancelError, setCancelError] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
 
   const results = useQueries({
     queries: months.map((month) => ({
@@ -72,6 +82,32 @@ export function useAdminReservations(months: string[]) {
     }
   };
 
+  const create = async ({ date, startTime, endTime, bookerName }: CreateInput) => {
+    setCreating(true);
+    setCreateError(null);
+    try {
+      await api.post("/admin/reservations", {
+        date,
+        start_time: startTime,
+        end_time: endTime,
+        booker_name: bookerName,
+      });
+      const month = date.slice(0, 7);
+      queryClient.invalidateQueries({ queryKey: ["admin-reservations", month] });
+      queryClient.invalidateQueries({ queryKey: ["calendar", month] });
+      return true;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.status === 422) {
+        setCreateError(error.response.data.message);
+      } else {
+        setCreateError("予約の作成に失敗しました。");
+      }
+      return false;
+    } finally {
+      setCreating(false);
+    }
+  };
+
   return {
     allReservations,
     getReservation,
@@ -79,5 +115,9 @@ export function useAdminReservations(months: string[]) {
     cancelling,
     cancelError,
     clearCancelError: () => setCancelError(null),
+    create,
+    creating,
+    createError,
+    clearCreateError: () => setCreateError(null),
   };
 }
