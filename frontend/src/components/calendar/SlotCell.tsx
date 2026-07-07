@@ -29,7 +29,7 @@ export function SlotCell({
     label = "－";
   } else if (status === "booked") {
     cellCls = bookedClickable
-      ? "bg-orange-50 text-orange-700 ring-1 ring-orange-200 cursor-pointer hover:bg-orange-100"
+      ? "bg-red-50 text-red-400 cursor-pointer hover:bg-red-100"
       : "bg-red-50 text-red-400 cursor-default";
     mobileLabel = "✕";
     label = bookedLabel ?? "予約済";

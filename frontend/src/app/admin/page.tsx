@@ -40,7 +40,7 @@ export default function AdminPage() {
         <AdminCalendar />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 pb-10">
+      <div className="mx-auto max-w-5xl px-4 pb-10">
         <div className="space-y-3">
           <AccordionItem title="料金設定">
             <PricePanel />

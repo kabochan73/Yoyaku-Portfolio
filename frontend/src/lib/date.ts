@@ -1,5 +1,5 @@
 export const DAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
-export const HOURS = Array.from({ length: 11 }, (_, i) => i + 10); // 10〜20
+export const HOURS = Array.from({ length: 12 }, (_, i) => i + 10); // 10〜21
 
 export function getMonday(date: Date): Date {
   const d = new Date(date);

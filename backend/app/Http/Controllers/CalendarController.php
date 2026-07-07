@@ -75,7 +75,7 @@ class CalendarController extends Controller
                 ]);
 
             $slots = [];
-            for ($hour = 10; $hour <= 20; $hour++) {
+            for ($hour = 10; $hour <= 21; $hour++) {
                 $isBooked = $bookedSlots->contains(fn ($b) => $hour >= $b['start'] && $hour < $b['end']);
                 $slots[$hour] = $isBooked ? 'booked' : 'available';
             }

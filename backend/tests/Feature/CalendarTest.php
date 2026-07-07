@@ -103,6 +103,16 @@ class CalendarTest extends TestCase
         $response->assertJsonPath('2026-07-08.slots.12', 'available');
     }
 
+    public function test_21時台のスロットも返る(): void
+    {
+        Carbon::setTestNow('2026-07-01');
+
+        $response = $this->getJson('/api/calendar?month=2026-07');
+
+        $response->assertOk();
+        $response->assertJsonPath('2026-07-08.slots.21', 'available');
+    }
+
     public function test_キャンセル済みの予約はbookedにならない(): void
     {
         Carbon::setTestNow('2026-07-01');
