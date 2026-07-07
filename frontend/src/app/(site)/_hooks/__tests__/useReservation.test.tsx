@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor, act } from "@testing-library/react";
+import { renderHook, act } from "@testing-library/react";
 import { AxiosError } from "axios";
 import type { ReactNode } from "react";
 import { useReservation } from "../useReservation";
