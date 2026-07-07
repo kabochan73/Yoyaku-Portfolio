@@ -29,12 +29,6 @@ describe("HolidayPanel", () => {
     jest.clearAllMocks();
   });
 
-  it("読み込み中は読み込み中表示を出す", () => {
-    mockedUseAdminHolidays.mockReturnValue(baseReturn({ isLoading: true }));
-    render(<HolidayPanel />);
-    expect(screen.getByText("読み込み中...")).toBeInTheDocument();
-  });
-
   it("休業日が無い場合は案内文を表示する", () => {
     mockedUseAdminHolidays.mockReturnValue(baseReturn());
     render(<HolidayPanel />);

@@ -6,7 +6,6 @@ import { useAdminHolidays } from "../_hooks/useAdminHolidays";
 export function HolidayPanel() {
   const {
     holidays,
-    isLoading,
     add,
     adding,
     addError,
@@ -28,10 +27,6 @@ export function HolidayPanel() {
       setReason("");
     }
   };
-
-  if (isLoading) {
-    return <p className="text-sm text-zinc-400">読み込み中...</p>;
-  }
 
   return (
     <>

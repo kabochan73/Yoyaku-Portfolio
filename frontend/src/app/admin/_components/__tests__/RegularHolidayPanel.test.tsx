@@ -13,19 +13,6 @@ describe("RegularHolidayPanel", () => {
     jest.clearAllMocks();
   });
 
-  it("読み込み中は読み込み中表示を出す", () => {
-    mockedUseAdminRegularHolidays.mockReturnValue({
-      regularHolidays: undefined,
-      isLoading: true,
-      update: jest.fn(),
-      saving: false,
-      saveError: null,
-      saveSuccess: false,
-    });
-    render(<RegularHolidayPanel />);
-    expect(screen.getByText("読み込み中...")).toBeInTheDocument();
-  });
-
   it("現在の定休日が選択済み(赤色)で表示される", () => {
     mockedUseAdminRegularHolidays.mockReturnValue({
       regularHolidays: [{ day_of_week: 1 }],

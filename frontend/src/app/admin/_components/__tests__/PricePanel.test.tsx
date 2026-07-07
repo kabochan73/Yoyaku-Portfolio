@@ -13,19 +13,6 @@ describe("PricePanel", () => {
     jest.clearAllMocks();
   });
 
-  it("読み込み中は読み込み中表示を出す", () => {
-    mockedUseAdminPrices.mockReturnValue({
-      prices: undefined,
-      isLoading: true,
-      update: jest.fn(),
-      saving: false,
-      saveError: null,
-      saveSuccess: false,
-    });
-    render(<PricePanel />);
-    expect(screen.getByText("読み込み中...")).toBeInTheDocument();
-  });
-
   it("現在の料金を初期値として表示する", () => {
     mockedUseAdminPrices.mockReturnValue({
       prices: [

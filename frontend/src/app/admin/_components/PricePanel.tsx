@@ -3,14 +3,10 @@
 import { useAdminPrices } from "../_hooks/useAdminPrices";
 
 export function PricePanel() {
-  const { prices, isLoading, update, saving, saveError, saveSuccess } = useAdminPrices();
+  const { prices, update, saving, saveError, saveSuccess } = useAdminPrices();
 
   const weekday = prices?.find((p) => p.type === "weekday");
   const weekend = prices?.find((p) => p.type === "weekend");
-
-  if (isLoading) {
-    return <p className="text-sm text-zinc-400">読み込み中...</p>;
-  }
 
   return (
     <form

@@ -59,12 +59,7 @@ function RegularHolidayForm({ initialDays, onSave, saving, saveError, saveSucces
 }
 
 export function RegularHolidayPanel() {
-  const { regularHolidays, isLoading, update, saving, saveError, saveSuccess } =
-    useAdminRegularHolidays();
-
-  if (isLoading) {
-    return <p className="text-sm text-zinc-400">読み込み中...</p>;
-  }
+  const { regularHolidays, update, saving, saveError, saveSuccess } = useAdminRegularHolidays();
 
   const initialDays = (regularHolidays ?? []).map((h) => h.day_of_week);
 
