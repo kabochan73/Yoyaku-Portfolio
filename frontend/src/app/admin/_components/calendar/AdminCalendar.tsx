@@ -7,7 +7,7 @@ import { useCalendar } from "@/hooks/useCalendar";
 import { addDays, getMonday, toYM, toYMD, DAY_LABELS } from "@/lib/date";
 import { WeekNavigator } from "@/components/calendar/WeekNavigator";
 import { CalendarGrid } from "@/components/calendar/CalendarGrid";
-import { useAdminReservations, type AdminReservation } from "../_hooks/useAdminReservations";
+import { useAdminReservations, type AdminReservation } from "../../_hooks/useAdminReservations";
 import { AdminReservationModal } from "./AdminReservationModal";
 import { PhoneReservationModal } from "./PhoneReservationModal";
 

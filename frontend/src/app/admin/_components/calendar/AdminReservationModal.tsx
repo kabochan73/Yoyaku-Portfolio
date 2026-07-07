@@ -1,5 +1,5 @@
 import { DAY_LABELS } from "@/lib/date";
-import type { AdminReservation } from "../_hooks/useAdminReservations";
+import type { AdminReservation } from "../../_hooks/useAdminReservations";
 
 function formatDate(dateStr: string): string {
   const [y, m, d] = dateStr.split("-").map(Number);

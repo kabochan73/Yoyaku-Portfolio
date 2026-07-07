@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { AccordionItem } from "@/components/AccordionItem";
-import { AdminCalendar } from "./_components/AdminCalendar";
+import { AdminCalendar } from "./_components/calendar/AdminCalendar";
 
 const ProfileForm = dynamic(() =>
   import("@/components/ProfileForm").then((mod) => mod.ProfileForm)
