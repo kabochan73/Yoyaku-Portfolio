@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor, act } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { useAdminRegularHolidays } from "./useAdminRegularHolidays";
+import { useAdminRegularHolidays } from "../useAdminRegularHolidays";
 import { api } from "@/lib/axios";
 
 jest.mock("@/lib/axios", () => ({

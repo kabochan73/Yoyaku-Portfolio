@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { WeekNavigator } from "./WeekNavigator";
+import { WeekNavigator } from "../WeekNavigator";
 
 describe("WeekNavigator", () => {
   it("見出しに週ラベルを表示する", () => {

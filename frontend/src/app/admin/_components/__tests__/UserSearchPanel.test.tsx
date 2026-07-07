@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { UserSearchPanel } from "./UserSearchPanel";
-import { useAdminUsers } from "../_hooks/useAdminUsers";
+import { UserSearchPanel } from "../UserSearchPanel";
+import { useAdminUsers } from "../../_hooks/useAdminUsers";
 
-jest.mock("../_hooks/useAdminUsers", () => ({
+jest.mock("../../_hooks/useAdminUsers", () => ({
   useAdminUsers: jest.fn(),
 }));
 

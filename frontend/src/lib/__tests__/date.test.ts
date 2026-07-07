@@ -1,4 +1,4 @@
-import { getMonday, addDays, addMonths, toYMD, toYM } from "./date";
+import { getMonday, addDays, addMonths, toYMD, toYM } from "../date";
 
 describe("getMonday", () => {
   it("水曜日から月曜日を求められる", () => {

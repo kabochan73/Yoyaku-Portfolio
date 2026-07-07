@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { AxiosError } from "axios";
 import type { ReactNode } from "react";
-import { useAdminReservations, type AdminReservation } from "./useAdminReservations";
+import { useAdminReservations, type AdminReservation } from "../useAdminReservations";
 import { api } from "@/lib/axios";
 import { getEcho } from "@/lib/echo";
 

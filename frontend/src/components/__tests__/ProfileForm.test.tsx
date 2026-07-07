@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { AxiosError } from "axios";
-import { ProfileForm } from "./ProfileForm";
+import { ProfileForm } from "../ProfileForm";
 import { useUser, type User } from "@/hooks/useUser";
 
 jest.mock("@/hooks/useUser", () => ({

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor, act } from "@testing-library/react";
-import { WeeklyCalendar } from "./WeeklyCalendar";
+import { WeeklyCalendar } from "../WeeklyCalendar";
 import { api } from "@/lib/axios";
 import { getEcho } from "@/lib/echo";
 import { useUser } from "@/hooks/useUser";

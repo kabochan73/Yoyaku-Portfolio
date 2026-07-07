@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { CalendarGrid } from "./CalendarGrid";
+import { CalendarGrid } from "../CalendarGrid";
 import { HOURS } from "@/lib/date";
 
 const weekDays = Array.from({ length: 7 }, (_, i) => new Date(2026, 6, 6 + i)); // 2026-07-06(月)〜07-12(日)

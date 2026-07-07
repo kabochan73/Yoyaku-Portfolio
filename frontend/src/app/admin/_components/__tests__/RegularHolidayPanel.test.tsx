@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { RegularHolidayPanel } from "./RegularHolidayPanel";
-import { useAdminRegularHolidays } from "../_hooks/useAdminRegularHolidays";
+import { RegularHolidayPanel } from "../RegularHolidayPanel";
+import { useAdminRegularHolidays } from "../../_hooks/useAdminRegularHolidays";
 
-jest.mock("../_hooks/useAdminRegularHolidays", () => ({
+jest.mock("../../_hooks/useAdminRegularHolidays", () => ({
   useAdminRegularHolidays: jest.fn(),
 }));
 

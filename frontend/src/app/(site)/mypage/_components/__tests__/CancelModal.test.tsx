@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { CancelModal } from "./CancelModal";
+import { CancelModal } from "../CancelModal";
 
 const details = {
   dateLabel: "2026年7月8日(水)",

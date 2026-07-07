@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ReservationModal } from "./ReservationModal";
+import { ReservationModal } from "../ReservationModal";
 
 const details = {
   dateLabel: "2026年7月8日(水)",

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor, act, fireEvent } from "@testing-library/react";
-import { AdminCalendar } from "./AdminCalendar";
+import { AdminCalendar } from "../AdminCalendar";
 import { api } from "@/lib/axios";
 import { getEcho } from "@/lib/echo";
 import { HOURS } from "@/lib/date";
@@ -127,7 +127,8 @@ describe("AdminCalendar", () => {
 
     expect(await screen.findByText("電話予約の登録")).toBeInTheDocument();
 
-    fireEvent.change(screen.getByPlaceholderText("山田 太郎"), { target: { value: "田中花子" } });
+    const bookerNameInput = screen.getByText("予約者名").nextElementSibling as HTMLElement;
+    fireEvent.change(bookerNameInput, { target: { value: "田中花子" } });
 
     await act(async () => {
       screen.getByText("登録する").click();

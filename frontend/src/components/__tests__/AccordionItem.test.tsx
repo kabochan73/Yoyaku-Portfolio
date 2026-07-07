@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { AccordionItem } from "./AccordionItem";
+import { AccordionItem } from "../AccordionItem";
 
 describe("AccordionItem", () => {
   it("初期状態では子要素はマウントされない", () => {

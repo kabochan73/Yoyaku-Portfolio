@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { SlotCell } from "./SlotCell";
+import { SlotCell } from "../SlotCell";
 
 describe("SlotCell", () => {
   it("closedの場合は「－」を表示する", () => {

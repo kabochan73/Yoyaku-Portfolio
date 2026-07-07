@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { PricePanel } from "./PricePanel";
-import { useAdminPrices } from "../_hooks/useAdminPrices";
+import { PricePanel } from "../PricePanel";
+import { useAdminPrices } from "../../_hooks/useAdminPrices";
 
-jest.mock("../_hooks/useAdminPrices", () => ({
+jest.mock("../../_hooks/useAdminPrices", () => ({
   useAdminPrices: jest.fn(),
 }));
 

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { AdminReservationModal } from "./AdminReservationModal";
-import type { AdminReservation } from "../../_hooks/useAdminReservations";
+import { AdminReservationModal } from "../AdminReservationModal";
+import type { AdminReservation } from "../../../_hooks/useAdminReservations";
 
 const reservation: AdminReservation = {
   id: 1,

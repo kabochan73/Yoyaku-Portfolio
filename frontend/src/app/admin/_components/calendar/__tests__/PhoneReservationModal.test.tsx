@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { PhoneReservationModal } from "./PhoneReservationModal";
+import { PhoneReservationModal } from "../PhoneReservationModal";
 
 const details = {
   dateLabel: "2026年7月8日(水)",
@@ -24,7 +24,8 @@ describe("PhoneReservationModal", () => {
       <PhoneReservationModal details={details} submitting={false} error={null} onSubmit={onSubmit} onClose={() => {}} />,
     );
 
-    fireEvent.change(screen.getByPlaceholderText("山田 太郎"), { target: { value: "田中花子" } });
+    const bookerNameInput = screen.getByText("予約者名").nextElementSibling as HTMLElement;
+    fireEvent.change(bookerNameInput, { target: { value: "田中花子" } });
     const submitButton = screen.getByText("登録する");
     expect(submitButton).toBeEnabled();
 
@@ -37,7 +38,8 @@ describe("PhoneReservationModal", () => {
       <PhoneReservationModal details={details} submitting={false} error={null} onSubmit={() => {}} onClose={() => {}} />,
     );
 
-    fireEvent.change(screen.getByPlaceholderText("山田 太郎"), { target: { value: "   " } });
+    const bookerNameInput = screen.getByText("予約者名").nextElementSibling as HTMLElement;
+    fireEvent.change(bookerNameInput, { target: { value: "   " } });
     expect(screen.getByText("登録する")).toBeDisabled();
   });
 
