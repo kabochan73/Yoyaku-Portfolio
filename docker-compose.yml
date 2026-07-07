@@ -76,6 +76,19 @@ services:
     networks:
       - futsal_network
 
+  scheduler:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: futsal_scheduler
+    command: php artisan schedule:work
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - backend
+    networks:
+      - futsal_network
+
   postgres:
     image: postgres:15-alpine
     container_name: futsal_postgres
