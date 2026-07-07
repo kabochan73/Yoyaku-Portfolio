@@ -20,24 +20,24 @@ export function AdminReservationModal({ reservation, onCancel, onClose, cancelli
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
       <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
         <h2 className="mb-4 text-lg font-bold text-zinc-900">予約詳細</h2>
-        <div className="mb-6 space-y-2 rounded-xl bg-zinc-50 p-4 text-sm">
+        <div className="mb-6 space-y-2 rounded-xl text-black p-4 text-xl font-bold">
           <div className="flex justify-between">
-            <span className="text-zinc-500">予約者</span>
-            <span className="font-medium text-zinc-900">{reservation.booker_name}</span>
+            <span>予約者</span>
+            <span className="font-medium">{reservation.booker_name}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-zinc-500">日付</span>
+            <span>日付</span>
             <span className="font-medium">{formatDate(reservation.date)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-zinc-500">時間</span>
+            <span>時間</span>
             <span className="font-medium">
               {reservation.start_time} 〜 {reservation.end_time}
             </span>
           </div>
           <div className="flex justify-between border-t border-zinc-200 pt-2">
             <span className="font-semibold text-zinc-700">料金</span>
-            <span className="font-bold text-zinc-900">¥{reservation.price.toLocaleString()}</span>
+            <span className="font-bold text-green-600">¥{reservation.price.toLocaleString()}</span>
           </div>
         </div>
         {error && <p className="mb-3 text-center text-xs text-red-500">{error}</p>}

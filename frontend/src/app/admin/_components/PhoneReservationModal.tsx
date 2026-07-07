@@ -23,24 +23,24 @@ export function PhoneReservationModal({ details, submitting, error, onSubmit, on
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
       <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
         <h3 className="mb-4 text-lg font-bold text-zinc-900">電話予約の登録</h3>
-        <div className="mb-6 space-y-2 rounded-xl bg-zinc-50 p-4 text-sm">
+        <div className="mb-6 space-y-2 rounded-xl text-black p-4 text-xl font-bold">
           <div className="flex justify-between">
-            <span className="text-zinc-500">日付</span>
+            <span>日付</span>
             <span className="font-medium">{details.dateLabel}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-zinc-500">時間</span>
+            <span>時間</span>
             <span className="font-medium">
               {details.startTime} 〜 {details.endTime}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-zinc-500">利用時間</span>
+            <span>利用時間</span>
             <span className="font-medium">{details.duration}時間</span>
           </div>
           <div className="flex justify-between border-t border-zinc-200 pt-2">
             <span className="font-semibold text-zinc-700">合計料金</span>
-            <span className="font-bold text-zinc-900">¥{details.total.toLocaleString()}</span>
+            <span className="font-bold text-green-600">¥{details.total.toLocaleString()}</span>
           </div>
         </div>
 

@@ -29,7 +29,7 @@ export function SlotCell({
     label = "－";
   } else if (status === "booked") {
     cellCls = bookedClickable
-      ? "bg-red-50 text-red-400 cursor-pointer hover:bg-red-100"
+      ? "bg-red-50 text-red-400 cursor-pointer hover:bg-red-100 "
       : "bg-red-50 text-red-400 cursor-default";
     mobileLabel = "✕";
     label = bookedLabel ?? "予約済";
@@ -48,9 +48,9 @@ export function SlotCell({
   }
 
   return (
-    <td className="py-1.5 text-center" onClick={onClick}>
+    <td className="py-1.5 px-1.5 text-center" onClick={onClick}>
       <span
-        className={`inline-block max-w-full truncate rounded-md px-2 py-1 align-bottom text-xs font-semibold transition sm:px-4 ${cellCls}`}
+        className={`inline-block max-w-full truncate rounded-md px-1 py-1 align-bottom text-xs font-semibold transition sm:px-4 ${cellCls}`}
       >
         <span className="sm:hidden">{mobileLabel}</span>
         <span className="hidden sm:inline">{label}</span>

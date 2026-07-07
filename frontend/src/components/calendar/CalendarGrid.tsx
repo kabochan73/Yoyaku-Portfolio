@@ -38,7 +38,7 @@ export function CalendarGrid({
       <table className="w-full table-fixed border-collapse text-sm">
         <thead>
           <tr className="divide-x divide-zinc-200 border-b border-zinc-200 bg-white">
-            <th className="w-14 py-3 text-center text-xl font-medium text-zinc-800 sm:w-28">
+            <th className="w-12 py-3 text-center text-xl font-medium text-zinc-800 sm:w-28">
               時間
             </th>
             {weekDays.map((d) => {
