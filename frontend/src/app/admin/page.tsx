@@ -36,11 +36,12 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        <h1 className="mb-8 text-2xl font-bold text-zinc-900">管理者ページ</h1>
+      <div className="px-4 py-10">
         <AdminCalendar />
+      </div>
 
-        <div className="mt-6 space-y-3">
+      <div className="mx-auto max-w-6xl px-4 pb-10">
+        <div className="space-y-3">
           <AccordionItem title="料金設定">
             <PricePanel />
           </AccordionItem>

@@ -5,9 +5,20 @@ type Props = {
   isStart: boolean;
   canBeEnd: boolean;
   onClick: () => void;
+  /** 予約済みマスをクリック可能にするか（admin: 詳細確認のため true、site: false） */
+  bookedClickable?: boolean;
+  /** 予約済みマスのラベル（admin: 予約者名など。省略時は「予約済」） */
+  bookedLabel?: string;
 };
 
-export function SlotCell({ status, isStart, canBeEnd, onClick }: Props) {
+export function SlotCell({
+  status,
+  isStart,
+  canBeEnd,
+  onClick,
+  bookedClickable = false,
+  bookedLabel,
+}: Props) {
   let cellCls = "";
   let mobileLabel = "";
   let label = "";
@@ -17,9 +28,11 @@ export function SlotCell({ status, isStart, canBeEnd, onClick }: Props) {
     mobileLabel = "－";
     label = "－";
   } else if (status === "booked") {
-    cellCls = "bg-red-50 text-red-400 cursor-default";
+    cellCls = bookedClickable
+      ? "bg-orange-50 text-orange-700 ring-1 ring-orange-200 cursor-pointer hover:bg-orange-100"
+      : "bg-red-50 text-red-400 cursor-default";
     mobileLabel = "✕";
-    label = "予約済";
+    label = bookedLabel ?? "予約済";
   } else if (isStart) {
     cellCls = "bg-green-600 text-white cursor-pointer";
     mobileLabel = "空";
@@ -37,7 +50,7 @@ export function SlotCell({ status, isStart, canBeEnd, onClick }: Props) {
   return (
     <td className="py-1.5 text-center" onClick={onClick}>
       <span
-        className={`inline-block rounded-md px-2 py-1 text-xs font-semibold transition sm:px-4 ${cellCls}`}
+        className={`inline-block max-w-full truncate rounded-md px-2 py-1 align-bottom text-xs font-semibold transition sm:px-4 ${cellCls}`}
       >
         <span className="sm:hidden">{mobileLabel}</span>
         <span className="hidden sm:inline">{label}</span>

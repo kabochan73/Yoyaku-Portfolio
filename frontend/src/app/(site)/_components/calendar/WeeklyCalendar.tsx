@@ -6,8 +6,8 @@ import { api } from "@/lib/axios";
 import { useCalendar } from "@/hooks/useCalendar";
 import { useReservation } from "../../_hooks/useReservation";
 import { addDays, getMonday, toYM, toYMD, DAY_LABELS } from "@/lib/date";
-import { WeekNavigator } from "./WeekNavigator";
-import { CalendarGrid } from "./CalendarGrid";
+import { WeekNavigator } from "@/components/calendar/WeekNavigator";
+import { CalendarGrid } from "@/components/calendar/CalendarGrid";
 import { ReservationModal } from "./ReservationModal";
 
 type Price = { type: "weekday" | "weekend"; amount_per_hour: number };

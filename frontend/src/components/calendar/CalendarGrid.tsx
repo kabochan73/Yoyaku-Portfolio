@@ -11,6 +11,10 @@ type Props = {
   selectedStart: { date: string; hour: number } | null;
   isValidEnd: (date: string, hour: number) => boolean;
   onSlotClick: (date: string, hour: number) => void;
+  /** 予約済みマスをクリック可能にするか（admin: 詳細確認のため true） */
+  bookedClickable?: boolean;
+  /** 予約済みマスのラベルを個別に指定（admin: 予約者名を表示） */
+  getBookedLabel?: (date: string, hour: number) => string | undefined;
 };
 
 export function CalendarGrid({
@@ -21,6 +25,8 @@ export function CalendarGrid({
   selectedStart,
   isValidEnd,
   onSlotClick,
+  bookedClickable,
+  getBookedLabel,
 }: Props) {
   return (
     <div className="relative overflow-x-auto rounded-xl border border-zinc-200 bg-white shadow-xl">
@@ -32,7 +38,7 @@ export function CalendarGrid({
       <table className="w-full table-fixed border-collapse text-sm">
         <thead>
           <tr className="divide-x divide-zinc-200 border-b border-zinc-200 bg-white">
-            <th className="w-28 py-3 text-center text-xl font-medium text-zinc-800">
+            <th className="w-14 py-3 text-center text-xl font-medium text-zinc-800 sm:w-28">
               時間
             </th>
             {weekDays.map((d) => {
@@ -59,7 +65,10 @@ export function CalendarGrid({
           {HOURS.map((hour) => (
             <tr key={hour} className="divide-x divide-zinc-200 border-b border-zinc-200 last:border-0">
               <td className="py-2 text-center text-xs text-zinc-800">
-                {String(hour).padStart(2, "0")}:00〜{String(hour + 1).padStart(2, "0")}:00
+                <span className="sm:hidden">{String(hour).padStart(2, "0")}:00</span>
+                <span className="hidden sm:inline">
+                  {String(hour).padStart(2, "0")}:00〜{String(hour + 1).padStart(2, "0")}:00
+                </span>
               </td>
               {weekDays.map((d) => {
                 const date = toYMD(d);
@@ -70,6 +79,8 @@ export function CalendarGrid({
                     isStart={selectedStart?.date === date && selectedStart?.hour === hour}
                     canBeEnd={isValidEnd(date, hour)}
                     onClick={() => onSlotClick(date, hour)}
+                    bookedClickable={bookedClickable}
+                    bookedLabel={getBookedLabel?.(date, hour)}
                   />
                 );
               })}

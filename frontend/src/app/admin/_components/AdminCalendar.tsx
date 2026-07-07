@@ -4,7 +4,9 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/axios";
 import { useCalendar } from "@/hooks/useCalendar";
-import { addDays, getMonday, toYM, toYMD, DAY_LABELS, HOURS } from "@/lib/date";
+import { addDays, getMonday, toYM, toYMD, DAY_LABELS } from "@/lib/date";
+import { WeekNavigator } from "@/components/calendar/WeekNavigator";
+import { CalendarGrid } from "@/components/calendar/CalendarGrid";
 import { useAdminReservations, type AdminReservation } from "../_hooks/useAdminReservations";
 import { AdminReservationModal } from "./AdminReservationModal";
 import { PhoneReservationModal } from "./PhoneReservationModal";
@@ -134,110 +136,27 @@ export function AdminCalendar() {
 
   return (
     <>
-      <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-zinc-900">予約カレンダー</h2>
-        <div className="mb-4 flex items-center justify-between">
-          <button
-            onClick={() => setWeekStart((d) => addDays(d, -7))}
-            className="rounded-lg border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
-          >
-            ← 前の週
-          </button>
-          <span className="text-sm font-medium text-zinc-700">{weekLabel}</span>
-          <button
-            onClick={() => setWeekStart((d) => addDays(d, 7))}
-            className="rounded-lg border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
-          >
-            次の週 →
-          </button>
-        </div>
+      <section className="mx-auto max-w-5xl rounded-2xl">
 
-        <div className="overflow-x-auto rounded-xl border border-zinc-200">
-          {isLoading ? (
-            <div className="flex h-64 items-center justify-center text-sm text-zinc-400">
-              読み込み中...
-            </div>
-          ) : (
-            <table className="w-full table-fixed border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50">
-                  <th className="w-24 py-3 text-center text-xs font-medium text-zinc-500">時間</th>
-                  {weekDays.map((d) => {
-                    const dow = d.getDay();
-                    const isToday = toYMD(d) === toYMD(today);
-                    const color =
-                      dow === 6 ? "text-blue-600" : dow === 0 ? "text-red-500" : "text-zinc-700";
-                    return (
-                      <th key={toYMD(d)} className="border-l border-zinc-200 py-3 text-center">
-                        <div className={`text-xs font-semibold ${color}`}>{DAY_LABELS[dow]}</div>
-                        <div
-                          className={`mx-auto mt-0.5 flex h-5 w-5 items-center justify-center rounded-full text-xs ${
-                            isToday ? "bg-green-600 font-bold text-white" : color
-                          }`}
-                        >
-                          {d.getDate()}
-                        </div>
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {HOURS.map((hour) => (
-                  <tr key={hour} className="border-b border-zinc-100 last:border-0">
-                    <td className="py-2 text-center text-xs text-zinc-500">
-                      {String(hour).padStart(2, "0")}:00〜{String(hour + 1).padStart(2, "0")}:00
-                    </td>
-                    {weekDays.map((d) => {
-                      const date = toYMD(d);
-                      const status = getSlotStatus(date, hour);
-                      const reservation = status === "booked" ? getReservation(date, hour) : null;
-                      const isStart =
-                        selectedStart?.date === date && selectedStart.hour === hour;
-                      const canBeEnd = isValidEnd(date, hour);
+        <WeekNavigator
+          weekLabel={weekLabel}
+          canGoPrev
+          canGoNext
+          onPrev={() => setWeekStart((d) => addDays(d, -7))}
+          onNext={() => setWeekStart((d) => addDays(d, 7))}
+        />
 
-                      let cellCls = "";
-                      let label = "";
-
-                      if (status === "closed") {
-                        cellCls = "bg-zinc-100 text-zinc-400 cursor-default";
-                        label = "－";
-                      } else if (status === "booked") {
-                        cellCls =
-                          "bg-orange-50 text-orange-700 ring-1 ring-orange-200 cursor-pointer hover:bg-orange-100";
-                        label = reservation ? reservation.booker_name.slice(0, 5) : "予約済み";
-                      } else if (isStart) {
-                        cellCls = "bg-green-600 text-white cursor-pointer";
-                        label = "開始";
-                      } else if (canBeEnd) {
-                        cellCls =
-                          "bg-green-100 text-green-700 ring-1 ring-green-400 cursor-pointer";
-                        label = "空き";
-                      } else {
-                        cellCls = "bg-white text-green-700 hover:bg-green-50 cursor-pointer";
-                        label = "空き";
-                      }
-
-                      return (
-                        <td
-                          key={date}
-                          className="border-l border-zinc-200 py-1.5 text-center"
-                          onClick={() => handleSlotClick(date, hour)}
-                        >
-                          <span
-                            className={`inline-block w-full truncate rounded-md px-2 py-1 text-xs font-medium transition ${cellCls}`}
-                          >
-                            {label}
-                          </span>
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+        <CalendarGrid
+          weekDays={weekDays}
+          today={today}
+          isLoading={isLoading}
+          getSlotStatus={getSlotStatus}
+          selectedStart={selectedStart}
+          isValidEnd={isValidEnd}
+          onSlotClick={handleSlotClick}
+          bookedClickable
+          getBookedLabel={(date, hour) => getReservation(date, hour)?.booker_name}
+        />
       </section>
 
       {modalReservation && (
