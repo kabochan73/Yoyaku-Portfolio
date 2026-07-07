@@ -15,6 +15,7 @@ const FALLBACK_PRICES: Price[] = [
 ];
 
 async function getPrices(): Promise<Price[]> {
+  if (!process.env.API_URL) return FALLBACK_PRICES;
   try {
     const res = await fetch(`${process.env.API_URL}/prices`, {
       next: { tags: ["prices"] },
@@ -27,6 +28,7 @@ async function getPrices(): Promise<Price[]> {
 }
 
 async function getRegularHolidays(): Promise<RegularHoliday[]> {
+  if (!process.env.API_URL) return [];
   try {
     const res = await fetch(`${process.env.API_URL}/regular-holidays`, {
       next: { tags: ["regular-holidays"] },
