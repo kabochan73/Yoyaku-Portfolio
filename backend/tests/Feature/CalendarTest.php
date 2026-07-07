@@ -113,6 +113,40 @@ class CalendarTest extends TestCase
         $response->assertJsonPath('2026-07-08.slots.21', 'available');
     }
 
+    public function test_adminには過去日も実際の予約状況が返る(): void
+    {
+        Carbon::setTestNow('2026-07-15');
+        $admin = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create();
+        Reservation::create([
+            'user_id' => $user->id,
+            'date' => '2026-07-01',
+            'start_time' => '10:00',
+            'end_time' => '12:00',
+            'status' => 'confirmed',
+            'booker_name' => $user->name,
+            'price' => 6000,
+        ]);
+
+        $response = $this->actingAs($admin)->getJson('/api/calendar?month=2026-07');
+
+        $response->assertOk();
+        $response->assertJsonPath('2026-07-01.closed', false);
+        $response->assertJsonPath('2026-07-01.slots.10', 'booked');
+        $response->assertJsonPath('2026-07-01.slots.12', 'available');
+    }
+
+    public function test_adminでも3ヶ月より前は休業として返る(): void
+    {
+        Carbon::setTestNow('2026-07-15');
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $response = $this->actingAs($admin)->getJson('/api/calendar?month=2026-03');
+
+        $response->assertOk();
+        $response->assertJsonPath('2026-03-20.closed', true);
+    }
+
     public function test_キャンセル済みの予約はbookedにならない(): void
     {
         Carbon::setTestNow('2026-07-01');

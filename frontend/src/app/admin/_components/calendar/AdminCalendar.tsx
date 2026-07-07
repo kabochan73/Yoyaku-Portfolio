@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/axios";
 import { useCalendar } from "@/hooks/useCalendar";
-import { addDays, getMonday, toYM, toYMD, DAY_LABELS } from "@/lib/date";
+import { addDays, addMonths, getMonday, toYM, toYMD, DAY_LABELS } from "@/lib/date";
 import { WeekNavigator } from "@/components/calendar/WeekNavigator";
 import { CalendarGrid } from "@/components/calendar/CalendarGrid";
 import { useAdminReservations, type AdminReservation } from "../../_hooks/useAdminReservations";
@@ -64,6 +64,9 @@ export function AdminCalendar() {
 
   const weekLabel = `${weekDays[0].getMonth() + 1}/${weekDays[0].getDate()} 〜 ${weekDays[6].getMonth() + 1}/${weekDays[6].getDate()}`;
 
+  const minMonday = useMemo(() => getMonday(addMonths(today, -3)), [today]);
+  const canGoPrev = weekStart > minMonday;
+
   const getPricePerHour = (date: string): number => {
     const day = weekDays.find((d) => toYMD(d) === date);
     if (!day || !prices) return 0;
@@ -83,12 +86,16 @@ export function AdminCalendar() {
 
   const handleSlotClick = (date: string, hour: number) => {
     const status = getSlotStatus(date, hour);
+    const isPast = date < toYMD(today);
 
     if (status === "booked") {
       const reservation = getReservation(date, hour);
       if (reservation) setModalReservation(reservation);
       return;
     }
+
+    // 過去日は実績確認のみ許可し、新規の電話予約の開始点としては選べないようにする
+    if (isPast) return;
 
     if (!selectedStart) {
       if (status !== "available") return;
@@ -140,7 +147,7 @@ export function AdminCalendar() {
 
         <WeekNavigator
           weekLabel={weekLabel}
-          canGoPrev
+          canGoPrev={canGoPrev}
           canGoNext
           onPrev={() => setWeekStart((d) => addDays(d, -7))}
           onNext={() => setWeekStart((d) => addDays(d, 7))}
