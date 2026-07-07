@@ -27,6 +27,7 @@ export function Hero() {
           <div className="mt-6 flex flex-col gap-2 text-sm text-zinc-700">
             <p>092-123-4567　受付時間 10:00〜22:00</p>
             <p>〒000-0000 福岡県福岡市中央区1-2-3</p>
+            <p>info@futsalpark.example.com</p>
           </div>
         </div>
       </div>

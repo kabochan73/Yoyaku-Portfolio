@@ -7,6 +7,7 @@ export function Footer() {
             <div>
               <p className="font-bold">092-123-4567</p>
               <p className="text-xs text-zinc-400">受付時間 10:00〜22:00</p>
+              <p className="text-xs text-zinc-400">info@futsalpark.example.com</p>
             </div>
           </div>
           <div className="flex items-start gap-2">
