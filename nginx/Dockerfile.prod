@@ -4,3 +4,4 @@ COPY default.conf.template /etc/nginx/templates/default.conf.template
 
 ENV BACKEND_HOST=backend.railway.internal
 ENV BACKEND_PORT=9000
+ENV NGINX_ENTRYPOINT_LOCAL_RESOLVERS=1

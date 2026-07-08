@@ -1,3 +1,5 @@
+resolver ${NGINX_LOCAL_RESOLVERS} valid=10s;
+
 server {
     listen ${PORT};
     server_name _;
@@ -11,7 +13,8 @@ server {
     }
 
     location ~ \.php$ {
-        fastcgi_pass ${BACKEND_HOST}:${BACKEND_PORT};
+        set $backend_upstream "${BACKEND_HOST}:${BACKEND_PORT}";
+        fastcgi_pass $backend_upstream;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
