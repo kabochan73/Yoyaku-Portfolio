@@ -6,9 +6,9 @@ use App\Events\ReservationUpdated;
 use App\Mail\ReservationCancelled;
 use App\Mail\ReservationConfirmed;
 use App\Models\Holiday;
-use App\Models\Price;
 use App\Models\RegularHoliday;
 use App\Models\Reservation;
+use App\Services\ReservationService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
+    public function __construct(private ReservationService $reservations)
+    {
+    }
+
     public function index(Request $request): JsonResponse
     {
         $reservations = $request->user()
@@ -41,19 +45,16 @@ class ReservationController extends Controller
         $date = $validated['date'];
         $startTime = $validated['start_time'];
         $endTime = $validated['end_time'];
-        $startHour = (int) substr($startTime, 0, 2);
-        $endHour = (int) substr($endTime, 0, 2);
 
         if (Carbon::parse($date)->gt(Carbon::today()->addMonth())) {
             return response()->json(['message' => '予約は1ヶ月先まで可能です。'], 422);
         }
 
-        if ($startHour < 10 || $endHour > 22) {
+        if (! $this->reservations->isWithinBusinessHours($startTime, $endTime)) {
             return response()->json(['message' => '営業時間は10:00〜22:00です。'], 422);
         }
 
-        $duration = $endHour - $startHour;
-        if ($duration < 2 || $duration > 4) {
+        if (! $this->reservations->isValidDuration($startTime, $endTime)) {
             return response()->json(['message' => '予約時間は2〜4時間で指定してください。'], 422);
         }
 
@@ -74,20 +75,9 @@ class ReservationController extends Controller
             return response()->json(['message' => '同じ日にすでに予約があります。'], 422);
         }
 
-        $conflict = Reservation::whereDate('date', $date)
-            ->where('status', 'confirmed')
-            ->where('start_time', '<', $endTime)
-            ->where('end_time', '>', $startTime)
-            ->exists();
-
-        if ($conflict) {
+        if ($this->reservations->hasConflict($date, $startTime, $endTime)) {
             return response()->json(['message' => 'その時間帯はすでに予約済みです。'], 422);
         }
-
-        $isWeekend = in_array($dayOfWeek, [0, 6]);
-        $priceType = $isWeekend ? 'weekend' : 'weekday';
-        $amountPerHour = Price::where('type', $priceType)->value('amount_per_hour');
-        $totalPrice = $amountPerHour * $duration;
 
         $reservation = Reservation::create([
             'user_id' => $request->user()->id,
@@ -96,7 +86,7 @@ class ReservationController extends Controller
             'end_time' => $endTime,
             'status' => 'confirmed',
             'booker_name' => $request->user()->name,
-            'price' => $totalPrice,
+            'price' => $this->reservations->calculatePrice($date, $startTime, $endTime),
         ]);
 
         Cache::tags(['calendar'])->flush();

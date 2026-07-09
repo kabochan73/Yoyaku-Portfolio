@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Events\ReservationUpdated;
 use App\Http\Controllers\Controller;
 use App\Mail\ReservationCancelled;
-use App\Models\Price;
 use App\Models\Reservation;
+use App\Services\ReservationService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Mail;
 
 class AdminReservationController extends Controller
 {
+    public function __construct(private ReservationService $reservations)
+    {
+    }
+
     public function index(Request $request): JsonResponse
     {
         $request->validate([
@@ -57,28 +61,15 @@ class AdminReservationController extends Controller
         $date = $validated['date'];
         $startTime = $validated['start_time'];
         $endTime = $validated['end_time'];
-        $startHour = (int) substr($startTime, 0, 2);
-        $endHour = (int) substr($endTime, 0, 2);
-        $duration = $endHour - $startHour;
 
-        if ($startHour < 10 || $endHour > 22 || $duration < 2 || $duration > 4) {
+        if (! $this->reservations->isWithinBusinessHours($startTime, $endTime)
+            || ! $this->reservations->isValidDuration($startTime, $endTime)) {
             return response()->json(['message' => '時間の指定が正しくありません。'], 422);
         }
 
-        $conflict = Reservation::whereDate('date', $date)
-            ->where('status', 'confirmed')
-            ->where('start_time', '<', $endTime)
-            ->where('end_time', '>', $startTime)
-            ->exists();
-
-        if ($conflict) {
+        if ($this->reservations->hasConflict($date, $startTime, $endTime)) {
             return response()->json(['message' => 'その時間帯はすでに予約済みです。'], 422);
         }
-
-        $dayOfWeek = Carbon::parse($date)->dayOfWeek;
-        $isWeekend = in_array($dayOfWeek, [0, 6]);
-        $priceType = $isWeekend ? 'weekend' : 'weekday';
-        $amountPerHour = Price::where('type', $priceType)->value('amount_per_hour');
 
         $reservation = Reservation::create([
             'user_id' => null,
@@ -87,7 +78,7 @@ class AdminReservationController extends Controller
             'end_time' => $endTime,
             'status' => 'confirmed',
             'booker_name' => $validated['booker_name'],
-            'price' => $amountPerHour * $duration,
+            'price' => $this->reservations->calculatePrice($date, $startTime, $endTime),
         ]);
 
         Cache::tags(['calendar'])->flush();
