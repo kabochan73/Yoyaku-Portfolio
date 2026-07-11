@@ -9,17 +9,7 @@ import { addDays, getMonday, toYM, toYMD, DAY_LABELS } from "@/lib/date";
 import { WeekNavigator } from "@/components/calendar/WeekNavigator";
 import { CalendarGrid } from "@/components/calendar/CalendarGrid";
 import { ReservationModal } from "./ReservationModal";
-
-type Price = { type: "weekday" | "weekend"; amount_per_hour: number };
-
-type ReservationDetails = {
-  date: string;
-  startTime: string;
-  endTime: string;
-  duration: number;
-  total: number;
-  dateLabel: string;
-};
+import type { Price, ReservationDetails } from "@/types/calendar";
 
 export function WeeklyCalendar() {
   const today = useMemo(() => {

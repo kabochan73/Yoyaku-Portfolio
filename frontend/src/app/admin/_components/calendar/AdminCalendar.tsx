@@ -10,17 +10,7 @@ import { CalendarGrid } from "@/components/calendar/CalendarGrid";
 import { useAdminReservations, type AdminReservation } from "../../_hooks/useAdminReservations";
 import { AdminReservationModal } from "./AdminReservationModal";
 import { PhoneReservationModal } from "./PhoneReservationModal";
-
-type Price = { type: "weekday" | "weekend"; amount_per_hour: number };
-
-type NewReservationDetails = {
-  date: string;
-  startTime: string;
-  endTime: string;
-  duration: number;
-  total: number;
-  dateLabel: string;
-};
+import type { Price, ReservationDetails as NewReservationDetails } from "@/types/calendar";
 
 export function AdminCalendar() {
   const today = useMemo(() => {

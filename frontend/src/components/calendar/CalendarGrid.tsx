@@ -1,7 +1,6 @@
 import { DAY_LABELS, HOURS, toYMD } from "@/lib/date";
 import { SlotCell } from "./SlotCell";
-
-type SlotStatus = "available" | "booked" | "closed";
+import type { SlotStatus } from "@/types/calendar";
 
 type Props = {
   weekDays: Date[];

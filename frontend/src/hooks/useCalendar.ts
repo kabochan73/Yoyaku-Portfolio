@@ -2,9 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/axios";
 import { getEcho } from "@/lib/echo";
-
-type SlotStatus = "available" | "booked" | "closed";
-type CalendarData = Record<string, { closed: boolean; slots: Record<string, string> }>;
+import type { SlotStatus, CalendarData } from "@/types/calendar";
 
 export function useCalendar(months: string[]) {
   const queryClient = useQueryClient();

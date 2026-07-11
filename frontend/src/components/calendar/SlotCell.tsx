@@ -1,4 +1,4 @@
-type SlotStatus = "available" | "booked" | "closed";
+import type { SlotStatus } from "@/types/calendar";
 
 type Props = {
   status: SlotStatus;
