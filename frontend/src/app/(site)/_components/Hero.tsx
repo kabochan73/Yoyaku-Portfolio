@@ -21,7 +21,7 @@ export function Hero() {
             FUTSAL PARK
           </h1>
           <p className="mt-4 text-zinc-600">
-            快適な屋内コートで、思いっきりフットサルを楽しもう!
+            快適な屋内コートで、フットサルを楽しもう!
           </p>
 
           <div className="mt-6 flex flex-col gap-2 text-sm text-zinc-700">
