@@ -14,11 +14,17 @@ const FALLBACK_PRICES: Price[] = [
   { type: "weekend", amount_per_hour: 5000 },
 ];
 
+const FALLBACK_HOLIDAYS: RegularHoliday[] = [{ day_of_week: 1 }];
+
+// ビルド時にAPIへ到達できない場合でも、フォールバック値を焼き込んだ上で
+// 1時間ごとに再検証し、実際のデータへ自己修復させる
+const REVALIDATE_SECONDS = 60 * 60;
+
 async function getPrices(): Promise<Price[]> {
   if (!process.env.API_URL) return FALLBACK_PRICES;
   try {
     const res = await fetch(`${process.env.API_URL}/prices`, {
-      next: { tags: ["prices"] },
+      next: { tags: ["prices"], revalidate: REVALIDATE_SECONDS },
     });
     if (!res.ok) throw new Error("failed to fetch prices");
     return res.json();
@@ -28,15 +34,15 @@ async function getPrices(): Promise<Price[]> {
 }
 
 async function getRegularHolidays(): Promise<RegularHoliday[]> {
-  if (!process.env.API_URL) return [];
+  if (!process.env.API_URL) return FALLBACK_HOLIDAYS;
   try {
     const res = await fetch(`${process.env.API_URL}/regular-holidays`, {
-      next: { tags: ["regular-holidays"] },
+      next: { tags: ["regular-holidays"], revalidate: REVALIDATE_SECONDS },
     });
     if (!res.ok) throw new Error("failed to fetch regular holidays");
     return res.json();
   } catch {
-    return [];
+    return FALLBACK_HOLIDAYS;
   }
 }
 
